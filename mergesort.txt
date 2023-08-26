@@ -1,0 +1,92 @@
+package Daa;
+
+import java.util.Random;
+import java.util.Scanner;
+
+public class MergeS {
+	public static void main(String[] args) {
+		int arr[];
+		int size;
+		Scanner in = new Scanner(System.in);
+		size = in.nextInt();
+		
+		arr = new int[size];
+		
+		Random generator = new Random();
+		
+		for(int i = 0 ; i < size; i++)
+		{
+			arr[i]=generator.nextInt(50);
+		}
+		
+		for(int i = 0; i < size; i++){
+			System.out.print(arr[i] + " ");
+		}
+		System.out.println();
+		long start_time = System.currentTimeMillis();
+		mergesort(arr , 0 , size - 1);
+		long end_time = System.currentTimeMillis();
+		for(int i = 0; i < size; i++){
+			System.out.print(arr[i] + " ");
+		}
+		System.out.println();
+		long te = end_time-start_time;
+		System.out.println("time elaspsed:"+te);
+		
+	}
+
+	public static void mergesort(int arr[] , int s , int e)
+	{
+		if(s>=e) {return ;}
+		int mid = (s+e)/2;
+		mergesort(arr , s , mid);
+		mergesort(arr , mid+1, e);
+		merge(arr , s , e);
+	}
+	public static void merge(int arr[], int s , int e)
+	{
+		int mid = (s+e)/2;
+		int len1 = mid - s +1;
+		int len2 = e - mid;
+		
+		int[] arr1 = new int[len1];
+		int[] arr2 = new int[len2];
+		
+		int originalArrayIndex = s;
+        for(int i = 0; i < len1; i++)
+        {
+        	arr1[i] = arr[originalArrayIndex++];
+        }
+        
+        for(int i = 0 ; i < len2 ; i++)
+        {
+        	arr2[i]=arr[originalArrayIndex++];
+        }
+       
+        originalArrayIndex = s ;
+        int i1 = 0;
+        int i2 = 0;
+        while(i1<len1 && i2<len2)
+        {
+        	if(arr1[i1] < arr2[i2])
+        	{
+        		arr[originalArrayIndex++] =  arr1[i1++];
+        	}
+        	else
+        	{
+        		arr[originalArrayIndex++] =  arr2[i2++];
+        	}
+        	
+        }
+        while(i1<len1)
+        {
+        	arr[originalArrayIndex++] =  arr1[i1++];
+        }
+        while(i2<len2)
+        {
+        	arr[originalArrayIndex++] =  arr2[i2++];
+        }
+        
+	}
+
+}
