@@ -1,0 +1,97 @@
+package Daa;
+import java.util.Random;
+import java.util.Scanner;
+
+public class QuickS {
+    public static void main(String[] args) {
+        int arr[];
+        int size;
+        Scanner in = new Scanner(System.in);
+        size = in.nextInt();
+        
+        arr = new int[size];
+        
+        Random generator = new Random();
+        
+        for(int i = 0 ; i < size; i++)
+        {
+        	arr[i]=generator.nextInt(50);
+        }
+        
+        for(int i = 0; i < size; i++){
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+        long start_time = System.currentTimeMillis();
+        quickSort(arr , 0 , size - 1);
+        long end_time = System.currentTimeMillis();
+        for(int i = 0; i < size; i++){
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+        long te = end_time-start_time;
+        System.out.println("time elaspsed:"+te);
+    } 
+
+    public static void quickSort(int[] arr , int s , int e){
+        //base case
+        if(s >= e)
+            return;
+
+        //take the partition
+        int p = partition(arr , s , e);
+
+        //left part sort
+        quickSort(arr , s , p - 1);
+
+        //right part sort
+        quickSort(arr , p + 1 , e);
+
+    }
+
+    public static int partition(int[] arr , int s , int e){
+
+        int pivot = arr[s];
+        int count = 0;
+        //count of elements smaller than pivot element
+        for(int i = s + 1; i <= e; i++){
+            if(arr[i] <= pivot)
+                count++;
+        }
+
+        int pivotIdx = s + count;
+
+        //put pivot element at correct position
+        int temp = pivot;
+        arr[s] = arr[pivotIdx];
+        arr[pivotIdx] = temp;
+
+        int sIdx = s;
+        int eIdx = e;
+
+        //make smaller elements lie before pivot & larger elements after pivot
+        while(sIdx < pivotIdx && eIdx > pivotIdx){
+
+            //move sIdx++ till we find element greater than pivot element in left side
+            while(arr[sIdx] <= pivot){
+                sIdx++;
+            }
+            //move eIdx-- till we find smaller elements than pivot in right side
+            while(arr[eIdx] > pivot){
+                eIdx--;
+            }
+            //swap the values if found
+            if(sIdx < pivotIdx && eIdx > pivotIdx){
+                temp = arr[sIdx];
+                arr[sIdx] = arr[eIdx];
+                arr[eIdx] = temp;
+
+                sIdx++;
+                eIdx--;
+            }
+        }
+        return pivotIdx;
+    }
+}
+
+
